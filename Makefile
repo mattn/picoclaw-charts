@@ -4,7 +4,7 @@ CHART_FILE = charts/picoclaw/Chart.yaml
 CHART_PATTERN = version:\s*(\d+\.\d+\.\d+)
 
 bump:
-	@VERSION=$$(go run github.com/mattn/bump@latest up -w -f $(CHART_FILE) -p '$(CHART_PATTERN)') && \
+	@VERSION=$$(go run github.com/mattn/bump@latest up -y -w -f $(CHART_FILE) -p '$(CHART_PATTERN)') && \
 		[ -n "$$VERSION" ] && \
 		git commit -am "bump version to $$VERSION" && \
 		git tag "v$$VERSION" && \
