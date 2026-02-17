@@ -43,8 +43,8 @@ jobs:
           pandoc README.md -o ../gh-pages/index.html
           cp docs/icon.png ../gh-pages/
           cd ../gh-pages
-          git add index.html
+          git add index.html icon.png
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git commit -m "Add index.html" || true
+          git commit -m "Add index.html and icon.png" || true
           git push origin HEAD:gh-pages
