@@ -23,9 +23,23 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+      - name: Convert README to HTML
+        run: |
+          npm install -g marked
+          cat README.md | marked > index.html
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
           mark_as_latest: true
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy index.html to .cr-index
+        run: |
+          if [ -f index.html ]; then
+            cp index.html .cr-index/
+            git add .cr-index/index.html
+            git commit -m "Add index.html" || true
+            git push
+          fi
