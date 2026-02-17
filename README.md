@@ -1,5 +1,7 @@
 # picoclaw
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/picoclaw)](https://artifacthub.io/packages/search?repo=picoclaw)
+
 picoclaw gateway Helm chart for Kubernetes.
 
 ## Installation
