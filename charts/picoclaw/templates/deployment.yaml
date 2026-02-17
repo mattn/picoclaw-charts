@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: picoclaw-gateway
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: picoclaw
+    component: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: picoclaw
+      component: gateway
+  template:
+    metadata:
+      labels:
+        app: picoclaw
+        component: gateway
+    spec:
+      enableServiceLinks: false
+      initContainers:
+        - name: init-workspace
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              if [ ! -f /root/.picoclaw/workspace/IDENTITY.md ]; then
+                yes | picoclaw onboard
+              fi
+          volumeMounts:
+            - name: workspace
+              mountPath: /root/.picoclaw/workspace
+      containers:
+        - name: picoclaw
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["gateway"]
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: picoclaw-secrets
+          volumeMounts:
+            - name: config
+              mountPath: /root/.picoclaw/config.json
+              subPath: config.json
+              readOnly: true
+            - name: workspace
+              mountPath: /root/.picoclaw/workspace
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+      volumes:
+        - name: config
+          configMap:
+            name: picoclaw-config
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: picoclaw-workspace
