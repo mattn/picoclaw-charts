@@ -1,7 +1,7 @@
 apiVersion: v2
 name: picoclaw
 description: A Helm chart for picoclaw gateway
-version: 0.1.18
+version: 0.1.19
 icon: https://mattn.github.io/picoclaw-charts/icon.png
 home: https://github.com/sipeed/picoclaw
 sources:
