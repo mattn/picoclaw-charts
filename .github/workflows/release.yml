@@ -28,14 +28,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc
 
-      - name: Copy README to chart
-        run: |
-          cp README.md charts/picoclaw/
-
-      - name: Convert README to HTML
-        run: |
-          pandoc README.md -o index.html
-
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
@@ -45,14 +37,14 @@ jobs:
 
       - name: Copy index.html to gh-pages
         run: |
-          if [ -f index.html ]; then
-            git fetch origin gh-pages
-            git worktree add ../gh-pages origin/gh-pages
-            cp index.html ../gh-pages/
-            cd ../gh-pages
-            git add index.html
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git config user.name "github-actions[bot]"
-            git commit -m "Add index.html" || true
-            git push origin HEAD:gh-pages
-          fi
+          git fetch origin gh-pages
+          git worktree add ../gh-pages origin/gh-pages
+          cp README.md charts/picoclaw/
+          pandoc README.md -o ../gh-pages/index.html
+          cp docs/icon.png ../gh-pages/
+          cd ../gh-pages
+          git add index.html
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git commit -m "Add index.html" || true
+          git push origin HEAD:gh-pages
