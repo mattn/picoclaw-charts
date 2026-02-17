@@ -34,12 +34,13 @@ jobs:
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Copy index.html to .cr-index
+      - name: Copy index.html to gh-pages
         run: |
           if [ -f index.html ]; then
-            cp index.html .cr-index/
-            git checkout origin/gh-pages -- .cr-index 2>/dev/null || true
-            cd .cr-index
+            git fetch origin gh-pages
+            git worktree add ../gh-pages origin/gh-pages
+            cp index.html ../gh-pages/
+            cd ../gh-pages
             git add index.html
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
