@@ -1,0 +1,12 @@
+{{- if .Values.configmap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: picoclaw-config
+  namespace: {{ .Values.namespace }}
+data:
+  {{- range $key, $value := .Values.configmap.data }}
+  {{ $key }}: |
+    {{- $value | nindent 4 }}
+  {{- end }}
+{{- end }}

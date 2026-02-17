@@ -1,0 +1,47 @@
+namespace: picoclaw
+
+image:
+  repository: ghcr.io/mattn/picoclaw
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 18790
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+workspace:
+  storage: 1Gi
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 3
+
+configmap:
+  enabled: true
+  data: {}
+  # 例:
+  # data:
+  #   config.json: |
+  #     {"key": "value"}
+
+secret:
+  enabled: true
+  data: {}
+  # 例:
+  # data:
+  #   api-key: your-api-key

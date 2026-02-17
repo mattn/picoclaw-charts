@@ -1,0 +1,4 @@
+apiVersion: v2
+name: picoclaw
+description: A Helm chart for picoclaw gateway
+version: 0.1.0
