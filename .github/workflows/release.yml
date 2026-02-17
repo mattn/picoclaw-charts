@@ -24,9 +24,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
 
       - name: Install Pandoc
-        uses: pandoc/setup-pandoc@v1
-        with:
-          pandoc-version: '3.1.13'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
       - name: Convert README to HTML
         run: |
