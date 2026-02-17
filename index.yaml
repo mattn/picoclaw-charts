@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   picoclaw:
   - apiVersion: v2
+    created: "2026-02-17T23:22:17.764689714Z"
+    description: A Helm chart for picoclaw gateway
+    digest: 7c24f27fd68db42a3817e6b8c124f5789398b728aea349c4f3d0ed90f3c9b1da
+    home: https://github.com/sipeed/picoclaw
+    name: picoclaw
+    sources:
+    - https://github.com/sipeed/picoclaw
+    - https://github.com/mattn/picoclaw-charts
+    urls:
+    - https://github.com/mattn/picoclaw-charts/releases/download/picoclaw-0.1.18/picoclaw-0.1.18.tgz
+    version: 0.1.18
+  - apiVersion: v2
     created: "2026-02-17T23:13:31.748708126Z"
     description: A Helm chart for picoclaw gateway
     digest: 59672f90031000f7838ef9a32d1728a6a1d03e8dbffa8af62293db77d7f4b39e
@@ -97,4 +109,4 @@ entries:
     urls:
     - https://github.com/mattn/picoclaw-charts/releases/download/picoclaw-0.1.7/picoclaw-0.1.7.tgz
     version: 0.1.7
-generated: "2026-02-17T23:13:31.748738451Z"
+generated: "2026-02-17T23:22:17.764729839Z"
