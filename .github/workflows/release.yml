@@ -28,6 +28,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc
 
+      - name: Copy README into chart
+        run: cp README.md charts/picoclaw/
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
@@ -39,7 +42,6 @@ jobs:
         run: |
           git fetch origin gh-pages
           git worktree add ../gh-pages origin/gh-pages
-          cp README.md charts/picoclaw/
           pandoc README.md -o ../gh-pages/index.html
           cp docs/icon.png ../gh-pages/
           cd ../gh-pages
